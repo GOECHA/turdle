@@ -19,7 +19,7 @@ var stats = document.querySelector('#stats-section');
 var gameOverBox = document.querySelector('#game-over-section');
 var gameOverGuessCount = document.querySelector('#game-over-guesses-count');
 var gameOverGuessGrammar = document.querySelector('#game-over-guesses-plural');
-
+// var apiCalls = 
 // Event Listeners
 window.addEventListener('load', setGame);
 
@@ -39,16 +39,44 @@ viewGameButton.addEventListener('click', viewGame);
 
 viewStatsButton.addEventListener('click', viewStats);
 
+
+
+
+// apiCalls.addEventListener('load',getData)
 // Functions
+
+const getData = () => { 
+return fetch("http://localhost:3001/api/v1/words")
+  .then(response => {
+    return response.json()
+  })
+
+  .catch(err => alert('404 not found!'));
+}
+
+getData().then(data => {
+  console.log(data)
+  showData(data)
+  getRandomWord(data)
+  return data
+})
+
+showData = (data) => {
+  console.log(data[0])
+}
+
+
+
 function setGame() {
   currentRow = 1;
   winningWord = getRandomWord();
   updateInputPermissions();
 }
 
-function getRandomWord() {
+function getRandomWord(data) {
   var randomIndex = Math.floor(Math.random() * 2500);
-  return words[randomIndex];
+  console.log(data[randomIndex])
+  return data[randomIndex];
 }
 
 function updateInputPermissions() {
